@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import authService from '../../services/authService';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function RegisterPage() {
   const [name, setName] = useState('');
@@ -27,50 +28,62 @@ function RegisterPage() {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="role">Role:</label>
-          <select id="role" value={role} onChange={(e) => setRole(e.target.value)}>
-            <option value="customer">Customer</option>
-            <option value="counsellor">Counsellor</option>
-          </select>
-        </div>
-        <button type="submit">Register</button>
-      </form>
-      <p>Already have an account? <Link to="/login">Login</Link></p>
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+      <div className="card p-4 shadow-sm" style={{ width: '100%', maxWidth: '500px' }}>
+        <h2 className="text-center mb-4">Register</h2>
+        {error && <p className="text-danger text-center">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">Name:</label>
+            <input
+              type="text"
+              id="name"
+              className="form-control"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">Email:</label>
+            <input
+              type="email"
+              id="email"
+              className="form-control"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">Password:</label>
+            <input
+              type="password"
+              id="password"
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="role" className="form-label">Role:</label>
+            <select
+              id="role"
+              className="form-select"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="customer">Customer</option>
+              <option value="counsellor">Counsellor</option>
+            </select>
+          </div>
+          <button type="submit" className="btn btn-success w-100">Register</button>
+        </form>
+        <p className="mt-3 text-center">
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
+      </div>
     </div>
   );
 }
