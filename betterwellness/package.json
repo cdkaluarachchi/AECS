@@ -1,0 +1,12 @@
+{
+  "name": "betterwellness",
+  "version": "1.0.0",
+  "description": "Health and Wellness Platform",
+  "scripts": {
+    "start": "concurrently \"cd auth-service && npm start\" \"cd user-service && npm start\" \"cd counsellor-service && npm start\" \"cd booking-service && npm start\" \"cd gateway && npm start\" \"cd client && npm start\"",
+    "dev": "concurrently \"cd auth-service && npm run dev\" \"cd user-service && npm run dev\" \"cd counsellor-service && npm run dev\" \"cd booking-service && npm run dev\" \"cd gateway && npm run dev\" \"cd client && npm run start\""
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
