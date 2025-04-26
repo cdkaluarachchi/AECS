@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: betterwellness-counsellor-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: betterwellness-counsellor
+  template:
+    metadata:
+      labels:
+        app: betterwellness-counsellor
+    spec:
+      containers:
+        - name: counsellor-service
+          image: cdkaluarachchi/counsellor-service:latest 
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8002
+          env:
+            - name: PORT
+              value: "8002"
+            - name: JWT_SECRET
+              value: "asdfasdwaewaew2"
+            - name: MONGO_URI
+              value: "mongodb+srv://cdkaluarachchi:sjhs4k@betterwellness.bdn3m38.mongodb.net/?retryWrites=true&w=majority&appName=betterwellness"
+          
+          readinessProbe:
+            httpGet:
+              path: /  
+              port: 8002
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: betterwellness-counsellor-service
+spec:
+  selector:
+    app: betterwellness-counsellor
+  ports:
+    - protocol: TCP
+      port: 8002
+      targetPort: 8002
+  type: ClusterIP

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: betterwellness-client
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: betterwellness-client
+  template:
+    metadata:
+      labels:
+        app: betterwellness-client
+    spec:
+      containers:
+        - name: betterwellness-client
+          image: cdkaluarachchi/client:latest
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: betterwellness-client-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: betterwellness-client
+  ports:
+    - port: 80
+      targetPort: 3000

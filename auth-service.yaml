@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: betterwellness-auth
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: betterwellness-auth
+  template:
+    metadata:
+      labels:
+        app: betterwellness-auth
+    spec:
+      containers:
+        - name: auth
+          image: cdkaluarachchi/auth-service:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: PORT
+              value: "8000"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: betterwellness-auth-secret
+                  key: jwt-secret
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: betterwellness-auth-secret
+                  key: mongo-uri
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: betterwellness-auth-secret
+type: Opaque
+stringData:
+  jwt-secret: asdfasdwaewaew2
+  mongo-uri: mongodb+srv://cdkaluarachchi:sjhs4k@betterwellness.bdn3m38.mongodb.net/?retryWrites=true&w=majority&appName=betterwellness
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: betterwellness-auth-service
+spec:
+  type: ClusterIP
+  selector:
+    app: betterwellness-auth
+  ports:
+    - port: 8000
+      targetPort: 8000

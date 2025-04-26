@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: betterwellness-booking-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: betterwellness-booking
+  template:
+    metadata:
+      labels:
+        app: betterwellness-booking
+    spec:
+      containers:
+        - name: booking-service
+          image: cdkaluarachchi/booking-service:latest 
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8003
+          env:
+            - name: PORT
+              value: "8003"
+            - name: JWT_SECRET
+              value: "asdfasdwaewaew2"
+            - name: MONGO_URI
+              value: "mongodb+srv://cdkaluarachchi:sjhs4k@betterwellness.bdn3m38.mongodb.net/?retryWrites=true&w=majority&appName=betterwellness"
+          
+          readinessProbe:
+            httpGet:
+              path: /  
+              port: 8003
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: betterwellness-booking-service
+spec:
+  selector:
+    app: betterwellness-booking
+  ports:
+    - protocol: TCP
+      port: 8003
+      targetPort: 8003
+  type: ClusterIP
